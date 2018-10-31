@@ -1,9 +1,7 @@
-FROM jenkins/jenkins:latest
+FROM evarga/jenkins-slave
 MAINTAINER McKessonQA <Praveen.Tata@McKesson.com>
 
 #COPY apt.conf /etc/apt/
-
-USER root
 
 #Make sure the package repository is up to date.
 RUN apt-get update
@@ -20,12 +18,3 @@ RUN apt-get install -y maven
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
-
-RUN curl -fsSL get.docker.com | sh
-RUN usermod -aG docker jenkins
-
-COPY ./jenkins_docker.sh /jenkins_docker.sh
-
-USER jenkins
-
-ENTRYPOINT ["/sbin/tini", "--", "/jenkins_docker.sh"]
